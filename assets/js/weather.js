@@ -27,11 +27,19 @@ let loadWeekForecastData = () => {
     let element_temp = document.getElementsByClassName("d-flex align-items-center");
     let mess_temp = `<span class="font-weight-bold text-dark mx-2">${week_content.temperature.max}</span> |  <span class="text-dark mx-2">${week_content.temperature.min}</span>
     <div class="ms-4"><i class="material-icons fs-2 me-1 rainy">${week_content.icon}</i></div>`;
-    element_temp[0].innerHTML=mess_temp;
+    element_temp[2].innerHTML=mess_temp;
 
 	
 }
 
 
-loadDayForecastData();
-loadWeekForecastData();
+document.addEventListener("DOMContentLoaded", (event) => {
+    loadDayForecastData();
+    let element = document.getElementById("loadinfo");
+
+    element.addEventListener('click', (event) => {
+        loadWeekForecastData();
+    });
+});
+
+
