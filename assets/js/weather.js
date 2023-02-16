@@ -2,14 +2,14 @@
 import { weather_data } from './data.js';
 
 
-let loadDayForecastData = () => {
-    let keys = Object.keys(weather_data[0]);
+let loadDayForecastData = (city_select) => {
+    let keys = Object.keys(weather_data[city_select]);
     for (let j = 1; j <  8; j++){
         let show = document.getElementById(keys[j]);
-        show.textContent = weather_data[0][keys[j]];
+        show.textContent = weather_data[city_select][keys[j]];
     };
 
-    let card_content = weather_data[0].forecast_today;
+    let card_content = weather_data[city_select].forecast_today;
     for(let value in card_content){
         let claves = Object.keys(card_content[value]);
         for(let i = 1; i < claves.length; i++){
@@ -30,16 +30,29 @@ let loadWeekForecastData = () => {
     element_temp[2].innerHTML=mess_temp;
 
 	
-}
+};
 
 
 document.addEventListener("DOMContentLoaded", (event) => {
-    loadDayForecastData();
+    loadCities();
+    let selection = document.getElementById("dropdownMenuButton");
+    selection.addEventListener('change', (event) => {
+        let selectedValue = event.target.value 
+        loadDayForecastData(selectedValue);
+    });
     let element = document.getElementById("loadinfo");
-
     element.addEventListener('click', (event) => {
         loadWeekForecastData();
     });
 });
 
 
+let loadCities = () => {
+    let menu = document.getElementById("dropdownMenuButton");
+    for(let i = 0; i <  weather_data.length; i++ ){
+        var opcion = document.createElement("option");
+        opcion.value = i;
+        opcion.text = weather_data[i].city;
+        menu.add(opcion);
+    }
+};
