@@ -19,8 +19,9 @@ let loadDayForecastData = (city_select) => {
     };
 };
 
-let loadWeekForecastData = () => {
-	let week_content = weather_data[0].forecast_week[0];
+
+let loadWeekForecastData = (index) => {
+	let week_content = weather_data[index].forecast_week[0];
     let element_data = document.getElementsByClassName("d-flex flex-column");
     let mess_text = `<h6 class="mb-1 text-dark font-weight-bold text-sm">${week_content.text}</h6><span class="text-xs">${week_content.date}</span>`;
     element_data[0].innerHTML=mess_text;
@@ -37,13 +38,15 @@ document.addEventListener("DOMContentLoaded", (event) => {
     loadCities();
     let selection = document.getElementById("dropdownMenuButton");
     selection.addEventListener('change', (event) => {
-        let selectedValue = event.target.value 
+        clean();
+        let selectedValue = event.target.value; 
         loadDayForecastData(selectedValue);
+        let element = document.getElementById("loadinfo");
+        element.addEventListener('click', (event) => {
+        loadWeekForecastData(selectedValue);
+        });
     });
-    let element = document.getElementById("loadinfo");
-    element.addEventListener('click', (event) => {
-        loadWeekForecastData();
-    });
+    
 });
 
 
@@ -56,3 +59,11 @@ let loadCities = () => {
         menu.add(opcion);
     }
 };
+
+const clean = () => {
+    let element = document.getElementsByClassName("d-flex flex-column");
+    element[0].innerHTML = ``;
+    let element_temp = document.getElementsByClassName("d-flex align-items-center");
+    element_temp[2].innerHTML= ``;
+  };
+  
