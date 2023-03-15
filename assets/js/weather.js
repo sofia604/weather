@@ -21,16 +21,21 @@ let loadDayForecastData = (city_select) => {
 
 
 let loadWeekForecastData = (index) => {
-	let week_content = weather_data[index].forecast_week[0];
-    let element_data = document.getElementsByClassName("d-flex flex-column");
-    let mess_text = `<h6 class="mb-1 text-dark font-weight-bold text-sm">${week_content.text}</h6><span class="text-xs">${week_content.date}</span>`;
-    element_data[0].innerHTML=mess_text;
-    let element_temp = document.getElementsByClassName("d-flex align-items-center");
-    let mess_temp = `<span class="font-weight-bold text-dark mx-2">${week_content.temperature.max}</span> |  <span class="text-dark mx-2">${week_content.temperature.min}</span>
-    <div class="ms-4"><i class="material-icons fs-2 me-1 rainy">${week_content.icon}</i></div>`;
-    element_temp[2].innerHTML=mess_temp;
-
-	
+    let element_data = document.getElementsByClassName("list-group");
+    let data = weather_data[index].forecast_week;
+    data.forEach(function(week_content){
+        let mess = `<li class="list-group-item border-0 d-flex justify-content-between ps-0 mb-2 border-radius-lg">
+                        <div class="d-flex flex-column">
+                            <h6 class="mb-1 text-dark font-weight-bold text-sm">${week_content.text}</h6>
+                            <span class="text-xs">${week_content.date}</span>
+                        </div>
+                        <div class="d-flex align-items-center ">
+                            <span class="font-weight-bold text-dark mx-2">${week_content.temperature.max}</span |  <span class="text-dark mx-2">${week_content.temperature.min}</span>
+                            <div class="ms-4"><i class="material-icons fs-2 me-1 rainy">${week_content.icon}</i></div>
+                        </div>
+                    </li>`;
+        element_data[0].innerHTML+=mess;
+    });
 };
 
 
@@ -44,6 +49,7 @@ document.addEventListener("DOMContentLoaded", (event) => {
         let element = document.getElementById("loadinfo");
         element.addEventListener('click', (event) => {
         loadWeekForecastData(selectedValue);
+        selectedValue = null;
         });
     });
     
@@ -61,9 +67,7 @@ let loadCities = () => {
 };
 
 const clean = () => {
-    let element = document.getElementsByClassName("d-flex flex-column");
+    let element = document.getElementsByClassName("list-group");
     element[0].innerHTML = ``;
-    let element_temp = document.getElementsByClassName("d-flex align-items-center");
-    element_temp[2].innerHTML= ``;
   };
   
